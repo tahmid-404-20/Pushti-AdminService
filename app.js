@@ -9,8 +9,10 @@ app.use(express.json());
 app.use(cors({ origin: "*" }));
 
 const dashboardRouter = require("./adminDashboard");
+const supportRouter = require("./adminSupport");
 
 app.use("/dashboard", dashboardRouter);
+app.use("/support", supportRouter);
 
 app.listen(PORT, async () => {
   console.log(`Admin Service listening on port ${PORT}`);
