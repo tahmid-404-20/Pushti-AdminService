@@ -37,10 +37,14 @@ router.post("/inbox", async (req, res) => {
       let smeMessagesUrl = supportMsUrl + "/get-tickets/sme";
       let smeTickets = await axios.get(smeMessagesUrl);
 
+      let agentMessageUrl = supportMsUrl + "/get-tickets/agent";
+      let agentTickets = await axios.get(agentMessageUrl);
+
       let response = {
         farmerTickets: farmerTickets.data,
         vendorTickets: vendorTickets.data,
         smeTickets: smeTickets.data,
+        agentTickets: agentTickets.data,
       };
 
       res.send(response);
