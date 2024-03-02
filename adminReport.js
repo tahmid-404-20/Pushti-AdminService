@@ -116,4 +116,73 @@ router.post("/upazilla", async (req, res) => {
   }
 });
 
+// req.body = {district_id: 123}
+router.post("/district", async (req, res) => {
+  let leaderboardMsUrl = await getLeaderboardMsUrl();
+
+  if (leaderboardMsUrl) {
+    try {
+      let district_id = req.body.district_id;
+      let responseStatArray = await supabase.any(
+        `select "name", "totalFarmerLoan", "totalBuy", "totalSell", "totalTax",
+             "totalSmeLoan", "availableBudget", "points" from "District" where "id" = $1;`,
+        [district_id]
+      );
+
+      let districtStats = responseStatArray[0];
+
+      let districtLeaderboardUrl = leaderboardMsUrl + "/upazilla";
+      let districtLeaderboard = await axios.post(districtLeaderboardUrl, {
+        district_id: district_id,
+      });
+
+      let response = {
+        districtStats: districtStats,
+        districtLeaderboard: districtLeaderboard.data,
+      };
+
+      res.send(response);
+    } catch (error) {
+      console.error("Error getting tickets", error);
+      res.status(500).send("Error getting tickets");
+    }
+  } else {
+    res.status(500).send("Error getting leaderboard-ms url");
+  }
+});
+
+router.post("/division", async (req, res) => {
+  let leaderboardMsUrl = await getLeaderboardMsUrl();
+
+  if (leaderboardMsUrl) {
+    try {
+      let division_id = req.body.division_id;
+      let responseStatArray = await supabase.any(
+        `select "name", "totalFarmerLoan", "totalBuy", "totalSell", "totalTax",
+                 "totalSmeLoan", "availableBudget", "points" from "Division" where "id" = $1;`,
+        [division_id]
+      );
+
+      let divisionStats = responseStatArray[0];
+
+      let divisionLeaderboardUrl = leaderboardMsUrl + "/district";
+      let divisionLeaderboard = await axios.post(divisionLeaderboardUrl, {
+        division_id: division_id,
+      });
+
+      let response = {
+        divisionStats: divisionStats,
+        divisionLeaderboard: divisionLeaderboard.data,
+      };
+
+      res.send(response);
+    } catch (error) {
+      console.error("Error getting tickets", error);
+      res.status(500).send("Error getting tickets");
+    }
+  } else {
+    res.status(500).send("Error getting leaderboard-ms url");
+  }
+});
+
 module.exports = router;
