@@ -192,11 +192,19 @@ router.post("/general", async (req, res) => {
     if (leaderboardMsUrl) {
         try {
         let responseStatArray = await supabase.any(
-            `select "name", "totalFarmerLoan", "totalBuy", "totalSell", "totalTax",
-                     "totalSmeLoan", "availableBudget", "points" from "Division";`
+            `           
+            select
+              sum("totalFarmerLoan") as "totalFarmerLoan",
+              sum("totalBuy") as "totalBuy",
+              sum("totalSell") as "totalSell",
+              sum("totalTax") as "totalTax",
+              sum("totalSmeLoan") as "totalSmeLoan",
+              sum("availableBudget") as "availableBudget"
+            from
+              "Division";;`
         );
     
-        let generalStats = responseStatArray;
+        let generalStats = responseStatArray[0];
     
         let generalLeaderboardUrl = leaderboardMsUrl + "/division";
         let generalLeaderboard = await axios.get(generalLeaderboardUrl);
