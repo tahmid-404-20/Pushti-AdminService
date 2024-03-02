@@ -65,7 +65,6 @@ router.post("update-ticket/make-read", async (req, res) => {
       let updateTicketUrl = supportMsUrl + "/update-ticket/make-read";
       let response = await axios.post(updateTicketUrl, {
         ticketId: req.body.ticketId,
-        comment: req.body.comment,
       });
 
       res.send(response.data);
@@ -87,6 +86,7 @@ router.post("update-ticket/update-status", async (req, res) => {
       let response = await axios.post(updateTicketUrl, {
         ticketId: req.body.ticketId,
         status: req.body.status,
+        comment: req.body.comment,
       });
 
       res.send(response.data);
