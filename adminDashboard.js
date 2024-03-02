@@ -32,9 +32,24 @@ router.post("/", async (req, res) => {
           "Vendor"
       ) as "totalVendors";`
     );
+
+    let responseStatArray = await supabase.any(
+      `           
+      select
+        sum("totalFarmerLoan") as "totalFarmerLoan",
+        sum("totalBuy") as "totalBuy",
+        sum("totalSell") as "totalSell",
+        sum("totalTax") as "totalTax",
+        sum("totalSmeLoan") as "totalSmeLoan",
+        sum("availableBudget") as "availableBudget"
+      from
+        "Division";;`
+  );
+
+  let generalStats = responseStatArray[0];
     
     let countSummary = countSummaryResponse[0];
-    const responseObject = { basicData, countSummary };
+    const responseObject = { basicData, countSummary, generalStats };
 
     res.status(200).json(responseObject);
   } catch (error) {
