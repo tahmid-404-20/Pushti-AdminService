@@ -13,12 +13,14 @@ const supportRouter = require("./adminSupport");
 const productRouter = require("./adminProduct");
 const loanHistoryRouter = require("./adminLoanHistory");
 const transactionHistoryRouter = require("./adminTransactionHistory");
+const reportRouter = require("./adminReport");
 
 app.use("/dashboard", dashboardRouter);
 app.use("/support", supportRouter);
 app.use("/product", productRouter);
 app.use("/loanHistory", loanHistoryRouter);
 app.use("/transactionHistory", transactionHistoryRouter);
+app.use("/report", reportRouter);
 
 app.listen(PORT, async () => {
   console.log(`Admin Service listening on port ${PORT}`);

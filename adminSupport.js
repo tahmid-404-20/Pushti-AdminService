@@ -57,7 +57,7 @@ router.post("/inbox", async (req, res) => {
   }
 });
 
-router.post("update-ticket/make-read", async (req, res) => {
+router.post("/update-ticket/make-read", async (req, res) => {
   let supportMsUrl = await getSupportMsUrl();
 
   if (supportMsUrl) {
@@ -77,7 +77,7 @@ router.post("update-ticket/make-read", async (req, res) => {
   }
 });
 
-router.post("update-ticket/update-status", async (req, res) => {
+router.post("/update-ticket/update-status", async (req, res) => {
   let supportMsUrl = await getSupportMsUrl();
 
   if (supportMsUrl) {
