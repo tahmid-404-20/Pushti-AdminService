@@ -13,7 +13,9 @@ const supportRouter = require("./adminSupport");
 
 app.use("/dashboard", dashboardRouter);
 app.use("/support", supportRouter);
-
+app.use("/product", )
+app.use("/loanHistory",)
+app.use("transactionHistory",)
 app.listen(PORT, async () => {
   console.log(`Admin Service listening on port ${PORT}`);
   try {
