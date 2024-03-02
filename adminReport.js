@@ -196,7 +196,7 @@ router.post("/general", async (req, res) => {
                      "totalSmeLoan", "availableBudget", "points" from "Division";`
         );
     
-        let generalStats = responseStatArray[0];
+        let generalStats = responseStatArray;
     
         let generalLeaderboardUrl = leaderboardMsUrl + "/division";
         let generalLeaderboard = await axios.get(generalLeaderboardUrl);
