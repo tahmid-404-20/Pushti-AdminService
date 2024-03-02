@@ -151,6 +151,7 @@ router.post("/district", async (req, res) => {
   }
 });
 
+// req.body = {division_id: 123}
 router.post("/division", async (req, res) => {
   let leaderboardMsUrl = await getLeaderboardMsUrl();
 
@@ -184,5 +185,35 @@ router.post("/division", async (req, res) => {
     res.status(500).send("Error getting leaderboard-ms url");
   }
 });
+
+router.post("/general", async (req, res) => {
+    let leaderboardMsUrl = await getLeaderboardMsUrl();
+    
+    if (leaderboardMsUrl) {
+        try {
+        let responseStatArray = await supabase.any(
+            `select "name", "totalFarmerLoan", "totalBuy", "totalSell", "totalTax",
+                     "totalSmeLoan", "availableBudget", "points" from "Division";`
+        );
+    
+        let generalStats = responseStatArray[0];
+    
+        let generalLeaderboardUrl = leaderboardMsUrl + "/division";
+        let generalLeaderboard = await axios.get(generalLeaderboardUrl);
+    
+        let response = {
+            generalStats: generalStats,
+            generalLeaderboard: generalLeaderboard.data,
+        };
+    
+        res.send(response);
+        } catch (error) {
+        console.error("Error getting tickets", error);
+        res.status(500).send("Error getting tickets");
+        }
+    } else {
+        res.status(500).send("Error getting leaderboard-ms url");
+    }
+    });
 
 module.exports = router;
