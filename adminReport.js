@@ -64,8 +64,9 @@ router.post("/union", async (req, res) => {
         [union_id]
       );
 
+      let agentId = responseAgentId[0].agentid;
       let agentDashboardUrl = agentServiceUrl + "/dashboard";
-      let agentDashboardData = await axios.get(agentDashboardUrl);
+      let agentDashboardData = await axios.post(agentDashboardUrl, {id: agentId});
 
       let response = {
         agentDashboardData: agentDashboardData.data,
